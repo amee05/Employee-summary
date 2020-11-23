@@ -36,7 +36,7 @@ const next = () => {
       }
     })
     .catch(err => console.log(err))
-}
+  }
 const addRole = ({name, id, email}) => {
   inquirer.prompt([
     {
@@ -60,7 +60,7 @@ const addRole = ({name, id, email}) => {
         break;
       }
   })
-    .catch(err => console.log(err))
+.catch(err => console.log(err))
   
 
 }
@@ -79,7 +79,7 @@ const makeManager= ({ name, id, email }) => {
       employees.push(new Employee(name, id, email, officeNumber))
       next()
     })
-    .catch(err => console.log(err))
+  .catch(err => console.log(err))
 }
 const makeEngineer = ({ name, id, email }) => {
   inquirer.prompt([
@@ -109,7 +109,7 @@ const makeIntern = ({ name, id, email }) => {
       employees.push(new Employee(name, id, email, school))
       next()
     })
-    .catch(err => console.log(err))
+  .catch(err => console.log(err))
 }
 
 const makeNewEmployee = () => {
