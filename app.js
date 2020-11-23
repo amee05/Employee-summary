@@ -7,12 +7,10 @@ const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
 
-const OUTPUT_DIR = path.resolve(__dirname, "output");
-const outputPath = path.join(OUTPUT_DIR, "team.html");
+// const OUTPUT_DIR = path.resolve(__dirname, "output");
+// const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
-const Choice = require("inquirer/lib/objects/choice");
-const { nextTick } = require('process');
 
 let employees = []
 
@@ -37,7 +35,7 @@ const next = () => {
     })
     .catch(err => console.log(err))
   }
-const addRole = ({name, id, email}) => {
+const addRole = (employee) => {
   inquirer.prompt([
     {
       type: 'list',
@@ -46,21 +44,21 @@ const addRole = ({name, id, email}) => {
       choices: ['Manager', 'Engineer', 'Intern']
     }
   ])
-  .then(employee => {
-    switch (employee.type) {
+  .then(({ role }) => {
+    switch (role) {
       case 'Manager':
         makeManager(employee)
         break;
 
       case 'Engineer':
-        mekeEngineer(employee)
+        makeEngineer(employee)
         break;
       case 'Intern':
-        mekeIntern(employee)
+        makeIntern(employee)
         break;
       }
   })
-.catch(err => console.log(err))
+ .catch(err => console.log(err))
   
 
 }
@@ -76,7 +74,7 @@ const makeManager= ({ name, id, email }) => {
     
   ])
     .then(({ officeNumber}) => {
-      employees.push(new Employee(name, id, email, officeNumber))
+      employees.push(new Manager(name, id, email, officeNumber))
       next()
     })
   .catch(err => console.log(err))
@@ -90,8 +88,8 @@ const makeEngineer = ({ name, id, email }) => {
     },
 
   ])
-    .then(({ officeNumber }) => {
-      employees.push(new Employee(name, id, email, github))
+    .then(({ github }) => {
+      employees.push(new Engineer(name, id, email, github))
       next()
     })
     .catch(err => console.log(err))
@@ -105,8 +103,8 @@ const makeIntern = ({ name, id, email }) => {
     },
 
   ])
-    .then(({ officeNumber }) => {
-      employees.push(new Employee(name, id, email, school))
+    .then(({ school }) => {
+      employees.push(new Intern(name, id, email, school))
       next()
     })
   .catch(err => console.log(err))
@@ -118,12 +116,12 @@ const makeNewEmployee = () => {
       type: 'input',
       name: 'name',
       message: 'What is the name of employee?'
-    }
+    },
     {
       type: 'input',
       name: 'id',
       message: 'Enter the ID'
-    }
+    },
     {
       type: 'input',
       name: 'email',
@@ -132,8 +130,8 @@ const makeNewEmployee = () => {
     
   ])
   .then(employee => {
-      employees.push(new Employee(employee.name, employee.id, employee.email))
-      addRole()
+      // employees.push(new Employee(employee.name, employee.id, employee.email))
+      addRole(employee)
     })
   
   .catch( err => console.log(err))
