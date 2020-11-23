@@ -1,3 +1,5 @@
+
+const Employee = require('./lib/Employee');
 const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
@@ -9,6 +11,52 @@ const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
+const Choice = require("inquirer/lib/objects/choice");
+
+let employee = []
+
+const makeManager = ({})
+
+const makeNewEmploye = () => {
+  inquirer.prompt([
+    {
+      type: 'input',
+      name: 'name',
+      message: 'What is the name of employee?'
+    }
+    {
+      type: 'input',
+      name: 'id',
+      message: 'Enter the ID'
+    }
+    {
+      type: 'input',
+      name: 'email',
+      message: 'Enter the email'
+    }
+    {
+      type: 'list',
+      name: 'role',
+      message: 'What is the role of the employee you wish to enter?',
+      choices: ['Manager', 'Engineer', 'Intern']
+    }
+  ])
+  .then(employee => {
+    switch (employee.type) {
+      case 'Manager':
+        
+        break;
+    
+      case 'Engineer':
+
+        break;
+      case 'Intern':
+
+        break;
+    }
+  })
+  .catch( err => console.log(err))
+}
 
 
 // Write code to use inquirer to gather information about the development team members,
