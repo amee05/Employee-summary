@@ -37,6 +37,33 @@ const next = () => {
     })
     .catch(err => console.log(err))
 }
+const addRole = ({name, id, email}) => {
+  inquirer.prompt([
+    {
+      type: 'list',
+      name: 'role',
+      message: 'What is the role of the employee you wish to enter?',
+      choices: ['Manager', 'Engineer', 'Intern']
+    }
+  ])
+  .then(employee => {
+    switch (employee.type) {
+      case 'Manager':
+        makeManager(employee)
+        break;
+
+      case 'Engineer':
+        mekeEngineer(employee)
+        break;
+      case 'Intern':
+        mekeIntern(employee)
+        break;
+      }
+  })
+    .catch(err => console.log(err))
+  
+
+}
 
 
 const makeManager= ({ name, id, email }) => {
@@ -102,32 +129,16 @@ const makeNewEmployee = () => {
       name: 'email',
       message: 'Enter the email'
     }
-    {
-      type: 'list',
-      name: 'role',
-      message: 'What is the role of the employee you wish to enter?',
-      choices: ['Manager', 'Engineer', 'Intern']
-    }
+    
   ])
   .then(employee => {
-    switch (employee.type) {
-      case 'Manager':
-          makeManager(employee)
-        break;
-    
-      case 'Engineer':
-          mekeEngineer(employee)
-        break;
-      case 'Intern':
-        mekeIntern(employee)
-        break;
-      default 'Employee'
-        employees.push(new Employee(employee.name, employee.id, employee.email))
-        next()
-    }
-  })
+      employees.push(new Employee(employee.name, employee.id, employee.email))
+      addRole()
+    })
+  
   .catch( err => console.log(err))
 }
+makeNewEmployee()
 
 
 // Write code to use inquirer to gather information about the development team members,
