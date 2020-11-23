@@ -12,12 +12,80 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 const Choice = require("inquirer/lib/objects/choice");
+const { nextTick } = require('process');
 
-let employee = []
+let employees = []
 
-const makeManager = ({})
+const next = () => {
+  inquirer.prompt({
+    type: 'list',
+    name: 'choice',
+    message: 'What would you like to do now?',
+    choices: ['Enter another new Employee', 'Finish']
+  })
+    .then(({ choice }) => {
+      switch (choice) {
+        case 'Enter another new Employee':
+          makeNewEmployee()
+          break
+        case 'Finish':
+          fs.writeFile(path.join(__dirname, 'output', 'index.html'), render(employees), err => {
+            if (err) { console.log(err) }
+          })
+          break
+      }
+    })
+    .catch(err => console.log(err))
+}
 
-const makeNewEmploye = () => {
+
+const makeManager= ({ name, id, email }) => {
+  inquirer.prompt([
+    {
+      type: 'input',
+      name: 'officeNumber',
+      message: 'Enter the Office Number'
+    },
+    
+  ])
+    .then(({ officeNumber}) => {
+      employees.push(new Employee(name, id, email, officeNumber))
+      next()
+    })
+    .catch(err => console.log(err))
+}
+const makeEngineer = ({ name, id, email }) => {
+  inquirer.prompt([
+    {
+      type: 'input',
+      name: 'github',
+      message: 'Enter the Github page id'
+    },
+
+  ])
+    .then(({ officeNumber }) => {
+      employees.push(new Employee(name, id, email, github))
+      next()
+    })
+    .catch(err => console.log(err))
+}
+const makeIntern = ({ name, id, email }) => {
+  inquirer.prompt([
+    {
+      type: 'input',
+      name: 'school',
+      message: 'Enter the name of the School'
+    },
+
+  ])
+    .then(({ officeNumber }) => {
+      employees.push(new Employee(name, id, email, school))
+      next()
+    })
+    .catch(err => console.log(err))
+}
+
+const makeNewEmployee = () => {
   inquirer.prompt([
     {
       type: 'input',
@@ -44,15 +112,18 @@ const makeNewEmploye = () => {
   .then(employee => {
     switch (employee.type) {
       case 'Manager':
-        
+          makeManager(employee)
         break;
     
       case 'Engineer':
-
+          mekeEngineer(employee)
         break;
       case 'Intern':
-
+        mekeIntern(employee)
         break;
+      default 'Employee'
+        employees.push(new Employee(employee.name, employee.id, employee.email))
+        next()
     }
   })
   .catch( err => console.log(err))
